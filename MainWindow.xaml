@@ -82,7 +82,11 @@
                 <TextBlock Text="Excel" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0" Foreground="#121518" HorizontalAlignment="Left"/>
 
                 <!--Members Data Grid-->
-                <DataGrid  AutoGenerateColumns="True" RowStyle="{DynamicResource DataGridRowStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" x:Name="membersDataGrid" Style="{DynamicResource DataGridStyle1}" />
+                <DataGrid  RowStyle="{DynamicResource DataGridRowStyle1}"
+                           ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                           CellStyle="{DynamicResource DataGridCellStyle1}" 
+                           x:Name="membersDataGrid" 
+                           Style="{DynamicResource DataGridStyle1}" />
 
 
             </Grid>

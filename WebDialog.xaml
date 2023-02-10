@@ -7,9 +7,21 @@
         xmlns:local="clr-namespace:MyWpfApp"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
+        Background="Transparent" WindowStyle="None"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         ResizeMode="NoResize"
-        Title="WebDialog" Height="700" Width="550">
-    <DockPanel>
-        <wv2:WebView2 Name="webView" />
-    </DockPanel>
+        Title="WebDialog" Height="700" Width="550" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Border CornerRadius="30" Background="#EFF2F7" >
+        <Grid>
+            <DockPanel>
+                <wv2:WebView2 Name="webView" />
+            </DockPanel>
+        </Grid>
+    </Border>
+        
 </Window>

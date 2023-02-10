@@ -112,9 +112,9 @@ namespace MyWpfApp.Storage
 
             return dataTable;
 		}
-		private void ImportExcelToSQLite(Stream stream, DriveFile file)
+		private bool ImportExcelToSQLite(Stream stream, DriveFile file)
 		{
-
+            bool result = false;
             var connection = CreateConnection();
             try
             {
@@ -177,11 +177,11 @@ namespace MyWpfApp.Storage
                 }
 
                 ExecuteNonQuery(insertQuery.ToString(), connection: connection);
-
+                result = true;
             }
             catch (Exception)
             {
-
+                result= false;
                 throw;
             }
             finally
@@ -190,7 +190,7 @@ namespace MyWpfApp.Storage
                 Dispose(connection);
             }
 
-
+            return result;
 		}
 	}
 }

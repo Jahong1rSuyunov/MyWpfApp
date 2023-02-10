@@ -41,7 +41,7 @@ namespace MyWpfApp
         {
             var driveList = storage.GetDriveFiles();
             await webView.ExecuteScriptAsync($"localStorage.setItem(\"newObj\", JSON.stringify({JsonConvert.SerializeObject(driveList)}));");
-            await webView.ExecuteScriptAsync($"console.log('dsadsadasdasdasdasdasdas');");
+            await webView.ExecuteScriptAsync($"console.log('WPFdan Salom Blazorga');");
         }
         private async void WebView2Control_NavigationCompleted(object sender, CoreWebView2WebMessageReceivedEventArgs args)
         {
@@ -50,14 +50,17 @@ namespace MyWpfApp
             {
                 var file = JsonConvert.DeserializeObject<DriveFile>(result);
                 this.Close();
-                storage.DownloadFile(file);
-                MainWindow mainWindow= new MainWindow();
-                mainWindow.RefreshDatagrid(file.Name);
-                mainWindow.Show();
+                if (storage.DownloadFile(file))
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.RefreshDatagrid(file.Name);
+                    mainWindow.Show();
+                }
+                else
+                    MessageBox.Show("Error ???");
+                
             }
         }
-
-
 
     }
 }

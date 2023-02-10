@@ -147,9 +147,8 @@ namespace MyWpfApp.Storage
        
 
         #region Download
-        public FileStream CsvDownload(DriveFile driveFile)
+        public bool CsvDownload(DriveFile driveFile)
         {
-            var result = new FileStream(driveFile.Name, FileMode.Create, FileAccess.Write);
             var service = GetDriveService();
 
             var request = service.Files.Get(driveFile.Id);
@@ -179,43 +178,33 @@ namespace MyWpfApp.Storage
             };
             request.Download(stream);
 
-            stream.Seek(0, SeekOrigin.Begin);
-            stream.CopyTo(result);
-
-            //using (var fileStream = new FileStream("D:\\ProgrammFile\\Projects\\MyWpfApp\\DownloadFile\\" + $"{Guid.NewGuid()}.csv", FileMode.Create, FileAccess.Write))
-            //{
-            //    stream.Seek(0, SeekOrigin.Begin);
-            //    stream.CopyTo(fileStream);
-            //};
-            //stream.Close();
-            ImportExcelToSQLite(stream, driveFile);
-            return result;
+            
+            return ImportExcelToSQLite(stream, driveFile);
         }
 
-        public FileStream DownloadFile(DriveFile file)
+        public bool DownloadFile(DriveFile file)
         {
-            FileStream fileStream = null;
+            var result = false;
             switch (file.MimeType)
             {
                 case "application/vnd.google-apps.spreadsheet":
-                    fileStream = SheetDownload(file);
+                    result = SheetDownload(file);
                     break;
                 case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-                    fileStream = ExcelDownload(file);
+                    result = ExcelDownload(file);
                     break;
                 case "text/csv":
-                    fileStream = CsvDownload(file);
+                    result = CsvDownload(file);
                     break;
                 case "application/vnd.ms-excel":
-                    fileStream = ExcelDownload(file);
+                    result = ExcelDownload(file);
                     break;
             }
-            return fileStream;
+            return result;
         }
 
-        public FileStream ExcelDownload(DriveFile driveFile)
+        public bool ExcelDownload(DriveFile driveFile)
         {
-            var result = new FileStream(driveFile.Name, FileMode.Create, FileAccess.Write);
             var service = GetDriveService();
 
             var request = service.Files.Get(driveFile.Id);
@@ -244,17 +233,12 @@ namespace MyWpfApp.Storage
                 }
             };
             request.Download(stream);
-
-            stream.Seek(0, SeekOrigin.Begin);
-            stream.CopyTo(result);
-
-            ImportExcelToSQLite(stream, driveFile);
-            return result;
+          
+            return ImportExcelToSQLite(stream, driveFile);
         }
 
-        public FileStream SheetDownload(DriveFile driveFile)
+        public bool SheetDownload(DriveFile driveFile)
         {
-            var result = new FileStream(driveFile.Name, FileMode.Create, FileAccess.Write);
             var service = GetDriveService();
 
             var request = service.Files.Export(driveFile.Id, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -285,12 +269,8 @@ namespace MyWpfApp.Storage
             };
 
             request.Download(stream);
-
-            stream.Seek(0, SeekOrigin.Begin);
-            stream.CopyTo(result);
-
-            ImportExcelToSQLite(stream, driveFile);
-            return result;
+            
+            return ImportExcelToSQLite(stream, driveFile);
         }
 
         #endregion
