@@ -1,25 +1,19 @@
 ﻿using ExcelDataReader;
-using Microsoft.Office.Interop.Excel;
 using MyWpfApp.Extinsion;
 using MyWpfApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Data.OleDb;
 using System.Data.SQLite;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using DataTable = System.Data.DataTable;
 
 namespace MyWpfApp.Storage
 {
-	public partial class Storages
-	{
-        private const string CONN_STRING = "Data Source=D:\\ProgrammFile\\Projects\\MyWpfApp\\database\\FileDb.db;";
+    public partial class Storages
+    {
+        private string CONN_STRING = $"Data Source={Directory.GetCurrentDirectory()}\\database\\FileDb.db;";
 
         public void Dispose(IDbConnection connection)
         {
@@ -84,17 +78,17 @@ namespace MyWpfApp.Storage
 
 
         public DataTable GetDataTable(string tableName)
-		{
+        {
             var dataTable = new DataTable();
             var connection = CreateConnection();
-         
+
             try
             {
                 if (connection.State != ConnectionState.Open)
                     connection.Open();
 
                 var query = $"SELECT * FROM {tableName};";
-                var reader = ExecuteReader(query, connection:connection);
+                var reader = ExecuteReader(query, connection: connection);
 
                 dataTable.Load(reader);
 
@@ -111,9 +105,9 @@ namespace MyWpfApp.Storage
             }
 
             return dataTable;
-		}
-		private bool ImportExcelToSQLite(Stream stream, DriveFile file)
-		{
+        }
+        private bool ImportExcelToSQLite(Stream stream, DriveFile file)
+        {
             bool result = false;
             var connection = CreateConnection();
             try
@@ -124,7 +118,7 @@ namespace MyWpfApp.Storage
 
                 IExcelDataReader reader = null;
 
-                if(file.FileType == "xlsx")
+                if (file.FileType == "xlsx")
                     reader = ExcelReaderFactory.CreateReader(stream);
                 else
                     reader = ExcelReaderFactory.CreateCsvReader(stream);
@@ -181,16 +175,17 @@ namespace MyWpfApp.Storage
             }
             catch (Exception)
             {
-                result= false;
+                result = false;
                 throw;
             }
             finally
             {
                 stream.Close();
                 Dispose(connection);
+                DeleteToken();
             }
 
             return result;
-		}
-	}
+        }
+    }
 }

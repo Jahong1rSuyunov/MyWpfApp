@@ -2,20 +2,7 @@
 using MyWpfApp.Models;
 using MyWpfApp.Storage;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MyWpfApp
 {
@@ -24,17 +11,16 @@ namespace MyWpfApp
     /// </summary>
     public partial class WebDialog : Window
     {
-        private Storages storage = new Storages();  
+        private Storages storage = new Storages();
         public WebDialog()
         {
             InitializeComponent();
-            webView.Source = new Uri("https://localhost:7139");
             webView.NavigationStarting += WebView2_NavigationStarting;
             webView.WebMessageReceived += WebView2Control_NavigationCompleted;
         }
         public async void SendData()
         {
-            
+
             await webView.EnsureCoreWebView2Async();  // never completes
         }
         private async void WebView2_NavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
@@ -58,7 +44,7 @@ namespace MyWpfApp
                 }
                 else
                     MessageBox.Show("Error ???");
-                
+
             }
         }
 

@@ -1,25 +1,7 @@
-﻿using Microsoft.Web.WebView2.Core;
-using MyWpfApp.Storage;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
+﻿using MyWpfApp.Storage;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 namespace MyWpfApp
@@ -30,7 +12,6 @@ namespace MyWpfApp
     public partial class MainWindow : Window
     {
         private Storages storage = new Storages();
-        private WebDialog dialog = new WebDialog();
         public MainWindow()
         {
             InitializeComponent();
@@ -49,7 +30,7 @@ namespace MyWpfApp
             //members.Add(new Member { Number = "10", Character = "S", BgColor = (Brush)converter.ConvertFromString("#0CA678"), Name = "Saeed Dasman", Position = "Coach", Email = "saeed.dasi@hotmail.com", Phone = "817-320-5052" });
             //DataTable table = new DataTable();
 
-            
+
 
         }
         public void RefreshDatagrid(string tableName)
@@ -58,18 +39,6 @@ namespace MyWpfApp
                 membersDataGrid.ItemsSource = storage.GetDataTable(tableName).DefaultView;
         }
 
-        //private void DisplayTableButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var check = storage.ConnectDrive();
-
-        //    if (check)
-        //    {
-        //        WebDialog webDialog = new WebDialog();
-        //        webDialog.ShowDialog();
-        //    }
-        //    else
-        //        MessageBox.Show("Drive bilan aloqa bog'lanmadi");
-        //}
         private bool IsMaximize = false;
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -112,7 +81,7 @@ namespace MyWpfApp
             else
                 MessageBox.Show("Drive bilan aloqa bog'lanmadi");
 
-            
+
         }
     }
 

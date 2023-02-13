@@ -19,7 +19,7 @@
     <Border CornerRadius="30" Background="#EFF2F7" >
         <Grid>
             <DockPanel>
-                <wv2:WebView2 Name="webView" />
+                <wv2:WebView2 Name="webView" Source="https://localhost:7139/ "/>
             </DockPanel>
         </Grid>
     </Border>

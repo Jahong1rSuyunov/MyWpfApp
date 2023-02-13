@@ -3,18 +3,12 @@ using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-using Microsoft.Office.Interop.Excel;
+using MyWpfApp.Extinsion;
 using MyWpfApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Data.SQLite;
-using MyWpfApp.Extinsion;
 
 namespace MyWpfApp.Storage
 {
@@ -22,7 +16,7 @@ namespace MyWpfApp.Storage
     {
         private static string[] scopes = { DriveService.Scope.Drive };
         private static string appName = "DriveApi";
-        private const string CRED_PATH = "token.json";
+        private const string CRED_PATH = "token";
 
         private UserCredential _credential;
 
@@ -37,7 +31,7 @@ namespace MyWpfApp.Storage
                     scopes,
                     Environment.UserName,
                     CancellationToken.None,
-                    new FileDataStore(CRED_PATH, false)).Result;
+                    new FileDataStore(CRED_PATH, true)).Result;
                 return true;
             }
             catch (Exception)
@@ -47,6 +41,17 @@ namespace MyWpfApp.Storage
 
         }
 
+        public void DeleteToken()
+        {
+            // Get all files in the folder
+            string[] files = Directory.GetFiles(CRED_PATH);
+
+            // Delete each file
+            foreach (string file in files)
+            {
+                File.Delete(file);
+            }
+        }
         public UserCredential GetCredential()
         {
             var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read);
@@ -144,7 +149,7 @@ namespace MyWpfApp.Storage
             });
         }
 
-       
+
 
         #region Download
         public bool CsvDownload(DriveFile driveFile)
@@ -178,7 +183,7 @@ namespace MyWpfApp.Storage
             };
             request.Download(stream);
 
-            
+
             return ImportExcelToSQLite(stream, driveFile);
         }
 
@@ -233,7 +238,7 @@ namespace MyWpfApp.Storage
                 }
             };
             request.Download(stream);
-          
+
             return ImportExcelToSQLite(stream, driveFile);
         }
 
@@ -269,7 +274,7 @@ namespace MyWpfApp.Storage
             };
 
             request.Download(stream);
-            
+
             return ImportExcelToSQLite(stream, driveFile);
         }
 
